@@ -121,7 +121,7 @@ public class HbaseDemo {
         Result result = table.get(get);
 
         for(Cell cell : result.rawCells()) {
-            System.out.println("RowKey: " + toStringBinary(result.getRow()) + " Familiy:Quilifier " + toStringBinary(CellUtil.cloneQualifier(cell))
+            System.out.println("RowKey: " + toStringBinary(result.getRow()) + "\t" + toStringBinary(CellUtil.cloneQualifier(cell))
                             + " Value: " + toStringBinary(CellUtil.cloneValue(cell)));
         }
 
@@ -137,7 +137,7 @@ public class HbaseDemo {
 
         for (Result result : results){
             for (Cell cell : result.rawCells()){
-                System.out.println("RowKey: " + toStringBinary(result.getRow()) + " Familiy:Quilifier " + toStringBinary(CellUtil.cloneQualifier(cell))
+                System.out.println("RowKey: " + toStringBinary(result.getRow()) + toStringBinary(CellUtil.cloneQualifier(cell))
                         + " Value: " + toStringBinary(CellUtil.cloneValue(cell)));
             }
 
@@ -147,9 +147,11 @@ public class HbaseDemo {
 
 
     // read from hdfs
-    public static void readandput(String dateform,String tablename) throws Exception {
+    public static void readandput(String dateform,String tablename,String sourcedir) throws Exception {
         Configuration conf = new Configuration();
-        String hdfsdir = "hdfs://asha:9000/user/asha/" + dateform;
+//        String hdfsdir = "hdfs://asha:9000/user/asha/" + dateform;
+        String hdfsdir = sourcedir + dateform;
+
         FileSystem fs = FileSystem.get(URI.create(hdfsdir), conf);
         FileStatus fileList[] = fs.listStatus(new Path(hdfsdir));
 
@@ -182,12 +184,12 @@ public class HbaseDemo {
 //        deleteTable("mytable");
 //        addRow("mytable","haihei","classroom","15423","99");
 
-        Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String strDate = dateFormat.format( now );
-        System.out.println(strDate);
-        readandput(strDate,"brushtable");
-
+//        Date now = new Date();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+//        String strDate = dateFormat.format( now );
+//        System.out.println(strDate);
+//        readandput("20160503","brushtable","hdfs://asha:9000/user/asha/");
+        getRow("brushtable","20160503_3870");
     }
 }
 
